@@ -1,5 +1,7 @@
 QT -= gui
 
+LIBS += -lws2_32
+
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
@@ -15,7 +17,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += main.cpp \
-    open62541.c
+    open62541.c \
+    myserver.cpp
 
 HEADERS += \
-    open62541.h
+    open62541.h \
+    myserver.h
