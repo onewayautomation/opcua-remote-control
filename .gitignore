@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/build-opcua-remote-control-server-Desktop_Qt_5_9_1_MSVC2015_32bit-Debug
+*.tlog
+/opcua-remote-control-server/.vs

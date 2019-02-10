@@ -28,11 +28,11 @@ bool MyServer::startServer()
 
     // Add object
     UA_ObjectAttributes oAttr = UA_ObjectAttributes_default;
-    oAttr.displayName = UA_LOCALIZEDTEXT("en-US", "SystemObj");
+    oAttr.displayName = UA_LOCALIZEDTEXT((char*) "en-US", (char*) "SystemObj");
     UA_Server_addObjectNode(m_server, UA_NODEID_NULL,
                             UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER),
                             UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES),
-                            UA_QUALIFIEDNAME(1, "SystemObj"), UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
+                            UA_QUALIFIEDNAME(1, (char*) "SystemObj"), UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE),
                             oAttr, NULL, &m_systemObjId);
 
     // Add methods
@@ -67,13 +67,14 @@ void MyServer::addOpenTerminalMethod(UA_Server *server) {
     UA_Argument_init(&outputArgument);
 
     UA_MethodAttributes openTerminalAttr = UA_MethodAttributes_default;
-    openTerminalAttr.description = UA_LOCALIZEDTEXT("en-US","Method to open terminal");
-    openTerminalAttr.displayName = UA_LOCALIZEDTEXT("en-US","Open Terminal");
+    // TODO: Here and further below eliminate using of old-style cast to char* from string literal.
+    openTerminalAttr.description = UA_LOCALIZEDTEXT((char*) "en-US",(char*) "Method to open terminal");
+    openTerminalAttr.displayName = UA_LOCALIZEDTEXT((char*) "en-US",(char*) "Open Terminal");
     openTerminalAttr.executable = true;
     openTerminalAttr.userExecutable = true;
     UA_Server_addMethodNode(server, UA_NODEID_NULL, m_systemObjId,
                             UA_NODEID_NUMERIC(0, UA_NS0ID_HASORDEREDCOMPONENT),
-                            UA_QUALIFIEDNAME(1, "openTerminal"),
+                            UA_QUALIFIEDNAME(1, (char*) "openTerminal"),
                             openTerminalAttr, &openTerminalMethodCallback,
                             1, &inputArgument, 1, &outputArgument, NULL, NULL);
 }
@@ -98,13 +99,13 @@ void MyServer::addRunTerminalCmdMethod(UA_Server *server) {
     UA_Argument_init(&outputArgument);
 
     UA_MethodAttributes runTerminalCmdAttr = UA_MethodAttributes_default;
-    runTerminalCmdAttr.description = UA_LOCALIZEDTEXT("en-US","Method to run terminal cmd");
-    runTerminalCmdAttr.displayName = UA_LOCALIZEDTEXT("en-US","Run Terminal Cmd");
+    runTerminalCmdAttr.description = UA_LOCALIZEDTEXT((char*) "en-US",(char*) "Method to run terminal cmd");
+    runTerminalCmdAttr.displayName = UA_LOCALIZEDTEXT((char*) "en-US",(char*) "Run Terminal Cmd");
     runTerminalCmdAttr.executable = true;
     runTerminalCmdAttr.userExecutable = true;
     UA_Server_addMethodNode(server, UA_NODEID_NULL, m_systemObjId,
                             UA_NODEID_NUMERIC(0, UA_NS0ID_HASORDEREDCOMPONENT),
-                            UA_QUALIFIEDNAME(1, "runTerminalCmd"),
+                            UA_QUALIFIEDNAME(1, (char*) "runTerminalCmd"),
                             runTerminalCmdAttr, &runTerminalCmdMethodCallback,
                             1, &inputArgument, 1, &outputArgument, NULL, NULL);
 }
@@ -129,13 +130,13 @@ void MyServer::addCloseTerminalMethod(UA_Server *server) {
     UA_Argument_init(&outputArgument);
 
     UA_MethodAttributes closeTerminalAttr = UA_MethodAttributes_default;
-    closeTerminalAttr.description = UA_LOCALIZEDTEXT("en-US","Method to close terminal");
-    closeTerminalAttr.displayName = UA_LOCALIZEDTEXT("en-US","Close Terminal");
+    closeTerminalAttr.description = UA_LOCALIZEDTEXT((char*) "en-US",(char*) "Method to close terminal");
+    closeTerminalAttr.displayName = UA_LOCALIZEDTEXT((char*) "en-US",(char*) "Close Terminal");
     closeTerminalAttr.executable = true;
     closeTerminalAttr.userExecutable = true;
     UA_Server_addMethodNode(server, UA_NODEID_NULL, m_systemObjId,
                             UA_NODEID_NUMERIC(0, UA_NS0ID_HASORDEREDCOMPONENT),
-                            UA_QUALIFIEDNAME(1, "closeTerminal"),
+                            UA_QUALIFIEDNAME(1, (char*) "closeTerminal"),
                             closeTerminalAttr, &closeTerminalMethodCallback,
                             1, &inputArgument, 1, &outputArgument, NULL, NULL);
 }
