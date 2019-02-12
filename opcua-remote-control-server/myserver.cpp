@@ -1,6 +1,7 @@
 #include "myserver.h"
 
 #include <signal.h>
+#include <windows.h>
 
 UA_Boolean running = true;
 static void stopHandler(int sig) {
@@ -119,8 +120,28 @@ UA_StatusCode MyServer::openMethodCallback(UA_Server *server,
                          size_t inputSize, const UA_Variant *input,
                          size_t outputSize, UA_Variant *output) {
 
-    UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_USERLAND, "Method is not implemented yet!");
-    return UA_STATUSCODE_BADNOTIMPLEMENTED;
+    // Open cmd window
+    STARTUPINFOA si;
+    ZeroMemory(&si,sizeof(STARTUPINFO));
+    si.cb = sizeof(si);
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&pi, sizeof(pi));
+    char cmd_exe[32767];
+    GetEnvironmentVariableA("COMSPEC", cmd_exe, 32767);
+    if (CreateProcessA(cmd_exe, "/k", NULL, NULL, TRUE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi))
+    {
+        UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_USERLAND, "dwProcessId =" + pi.dwProcessId);
+        CloseHandle(pi.hThread);
+        CloseHandle(pi.hProcess);
+    }
+    else
+    {
+        DWORD dwErrorCode = GetLastError();
+        UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_USERLAND, "cmd process not started, error =" + dwErrorCode);
+    }
+
+    UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "Open was called");
+    return UA_STATUSCODE_GOOD;
 }
 
 UA_StatusCode MyServer::runMethodCallback(UA_Server *server,
